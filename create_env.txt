@@ -9,3 +9,40 @@ python -m pip install -r requirements.txt
 #eliminate
 #rm -rf .venv_graphs
 
+# ------------------------
+
+# # Install AWS CLI (Mac)
+  brew install awscli
+
+  # Install AWS CDK CLI
+  npm install -g aws-cdk
+# --------------------------
+
+Option 2 — nvm (version manager)
+# install nvm (if you don’t have it)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+# reload shell
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# install Node LTS
+nvm install --lts
+nvm use --lts
+
+# then CDK
+npm install -g aws-cdk
+cdk --version
+
+# --------------------------------
+
+# load your AWS creds from .env if you haven’t
+set -a; source .env; set +a
+aws sts get-caller-identity
+
+# go to infra and deploy
+cd aws_cdk/infra
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+cdk bootstrap
+cdk deploy
+
